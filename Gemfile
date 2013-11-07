@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.0.0'
 gem 'haml-rails'
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '~> 2.3.2.2'
 
 group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
+  gem 'sass-rails',   '~> 4.0.0'
+  gem 'coffee-rails', '~> 4.0.0'
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -28,6 +28,7 @@ group :test do
 	gem "launchy", "~> 2.3.0"
 	gem "selenium-webdriver", "~> 2.35.1"
 	gem "shoulda-matchers"
+	gem 'fabrication'
 end
 
 
