@@ -1,9 +1,9 @@
 class CategoriesController < ApplicationController
 	def index
-		@categories = Category.all
+		@categories = CategoryDecorator.decorate_collection(Category.all)
 	end
 
 	def show
-		@category = Category.find_by(id: params[:id])
+		@category = Category.find_by(id: params[:id]).decorate
 	end
 end
