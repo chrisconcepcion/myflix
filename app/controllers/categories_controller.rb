@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+	before_action :require_authentication, only: [:index, :show]
+
 	def index
 		@categories = CategoryDecorator.decorate_collection(Category.all)
 	end
