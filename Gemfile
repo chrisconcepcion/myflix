@@ -3,6 +3,10 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 2.3.2.2'
+gem 'draper' ,'~> 1.0'
+gem 'bcrypt-ruby'
+gem 'bootstrap_form'
+
 
 group :assets do
   gem 'sass-rails',   '~> 4.0.0'
