@@ -3,6 +3,7 @@ class VideosController < ApplicationController
 
 	def show
 		@video = Video.find_by(id: params[:id])
+		@reviews = ReviewDecorator.decorate_collection(@video.reviews)
 	end
 
 	def search

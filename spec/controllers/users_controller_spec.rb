@@ -29,6 +29,11 @@ describe UsersController do
 				post :create, user: { email: "" }
 				expect(response).to render_template :new
 			end
+
+			it "does not create a user" do
+				post :create, user: { email: "" }
+				expect(User.count).to eq 0
+			end
 		end
 	end
 end

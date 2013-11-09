@@ -9,7 +9,23 @@ describe VideosController do
 				get :show, id: test_video.id
 				expect(assigns(:video)).to eq test_video
 			end
+
+			it "sets review variable" do
+				set_current_user
+				test_review = Fabricate(:review, video_id: test_video.id, user_id: current_user.id)
+				get :show, id: test_video.id
+				expect(assigns(:reviews)).to eq [test_review]
+			end
+
+			it "review variable is decorated" do
+				set_current_user
+				test_review = Fabricate(:review, video_id: test_video.id, user_id: current_user.id)
+				get :show, id: test_video.id
+				expect(assigns(:reviews)).to be_decorated
+			end
 		end
+
+
 
 		it_behaves_like "when not authenticated" do
 			let(:action) { get :show, id: test_video.id }
