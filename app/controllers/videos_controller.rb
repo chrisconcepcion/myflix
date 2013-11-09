@@ -1,4 +1,5 @@
 class VideosController < ApplicationController
+	before_action :require_authentication, only: [:show, :search]
 
 	def show
 		@video = Video.find_by(id: params[:id])
