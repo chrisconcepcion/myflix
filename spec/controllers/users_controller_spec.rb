@@ -26,12 +26,12 @@ describe UsersController do
 		end
 		context "with invalid input" do
 			it "renders a template" do
-				post :create, user: { email: "" }
+				post :create, user: Fabricate.attributes_for(:invalid_user)
 				expect(response).to render_template :new
 			end
 
 			it "does not create a user" do
-				post :create, user: { email: "" }
+				post :create, user: Fabricate.attributes_for(:invalid_user)
 				expect(User.count).to eq 0
 			end
 		end

@@ -2,8 +2,9 @@ class VideosController < ApplicationController
 	before_action :require_authentication, only: [:show, :search]
 
 	def show
-		@video = Video.find_by(id: params[:id])
+		@video = Video.find_by(id: params[:id]).decorate
 		@reviews = ReviewDecorator.decorate_collection(@video.reviews)
+
 	end
 
 	def search

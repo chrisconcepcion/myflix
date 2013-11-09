@@ -3,3 +3,7 @@ Fabricator(:user) do
 	full_name Faker::Name.name
 	password Faker::Name.name
 end
+
+Fabricator(:invalid_user, from: :user) do
+	password ""
+end
