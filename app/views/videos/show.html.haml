@@ -7,9 +7,34 @@
         %header
           %h3
             = @video.title
-          %span Rating: 4.5/5.0
+          - if @video.average_rating
+            %span Rating: #{@video.average_rating}
+          - else 
+            %span Rating: Be the first to review this video!
         %p 
           = @video.description
         .actions
           %a.btn.btn-primary(href="") Watch Now
           %a.btn(href="") + My Queue
+
+%section.reviews.container
+  .row
+    .span10.offset1
+      = bootstrap_form_for [@video, Review.new] do |f|
+        %fieldset
+          = f.select :rating, options_for_select([5,4,3,2,1].map {|number| [pluralize(number, "Star")]}), label: "Rate this video"
+          = f.text_area :description, label: "Write Review", rows: 6, class: 'span6'
+        %fieldset.actions.clearfix
+          %input(type="submit" value="Submit" class="btn")
+          %a(href="") Cancel
+      %header
+        %h3 User Reviews (#{@reviews.count})
+      %ul
+        - @reviews.each do |review|
+          %article.review
+            %li.row
+              .span2
+                %span Rating: #{review.rating}
+                %p by <a href="">#{review.reviewer_name}</a>
+              .span8
+                %p #{review.description}

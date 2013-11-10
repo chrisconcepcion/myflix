@@ -5,6 +5,7 @@ class Video < ActiveRecord::Base
 	validates :large_cover_url, presence: true
 
 	belongs_to :category
+	has_many :reviews
 
 	def self.search_by_title(keyword)
 		if keyword.blank?

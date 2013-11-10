@@ -5,17 +5,17 @@ describe CategoriesController do
 		context "when authenticated" do
 			it "is being decorated" do
 				set_current_user
-				test_category1 = Fabricate(:category)
+				category = Fabricate(:category)
 				get :index
-				expect(assigns(:categories)).to eq (CategoryDecorator.decorate([test_category1])) 
+				expect(assigns(:categories)).to eq (CategoryDecorator.decorate([category])) 
 			end
 
 			it "sets categories variable" do
 				set_current_user
-				test_category1 = Fabricate(:category)
-				test_category2 = Fabricate(:category)
+				category1 = Fabricate(:category)
+				category2 = Fabricate(:category)
 				get :index
-				expect(assigns(:categories)).to match_array([test_category1, test_category2])
+				expect(assigns(:categories)).to match_array([category1, category2])
 			end
 		end
 
@@ -25,24 +25,24 @@ describe CategoriesController do
 	end
 
 	describe "GET show" do
-		let(:test_category) { Fabricate(:category) }
+		let(:category) { Fabricate(:category) }
 
 		context "when authenticated" do
 			it "is being decorated" do
 				set_current_user
-				get :show, id: test_category.id
+				get :show, id: category.id
 				expect(assigns(:category)).to be_decorated_with CategoryDecorator
 			end
 
 			it "sets category variable" do
 				set_current_user
-				get :show, id: test_category.id
-				expect(assigns(:category)).to eq test_category
+				get :show, id: category.id
+				expect(assigns(:category)).to eq category
 			end
 		end
 
 		it_behaves_like "when not authenticated" do
-			let(:action) { get :show, id: test_category.id }
+			let(:action) { get :show, id: category.id }
 		end
 	end
 end
