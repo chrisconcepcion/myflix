@@ -24,20 +24,24 @@ describe SessionsController do
 	describe "POST create" do
 		context "with valid inputs" do
 			let(:user) { Fabricate(:user) }
+
 			it "signs in a user" do
 				post :create, email: user.email, password: user.password
 				expect(session[:user_id]).to eq user.id
 			end
+
 			it "redirects to home" do
 				post :create, email: user.email, password: user.password
 				expect(response).to redirect_to home_path
 			end
 		end
+
 		context "with invalid input" do
 			it "displays flash notice" do
 				post :create, email: "", password: ""
 				expect(flash[:notice]).to eq "Incorrect email or password. Please try again."
 			end
+
 			it "renders new template" do
 				post :create, email: "", password: ""
 				expect(response).to render_template :new
@@ -52,11 +56,13 @@ describe SessionsController do
 				get :destroy
 				expect(session[:user_id]).to eq nil
 			end
+
 			it "displays a flash notice" do
 				set_current_user
 				get :destroy
 				expect(flash[:notice]).to eq "You have been signed out."
 			end
+			
 			it "redirects to welcome page" do
 				set_current_user
 				get :destroy

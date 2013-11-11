@@ -20,5 +20,7 @@ Myflix::Application.routes.draw do
 
   resources :users, only: [:new, :create]
 
+  resources :queue_items, only: [:index, :create]
+
 
 end

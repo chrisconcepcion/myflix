@@ -7,4 +7,5 @@ describe User do
 	it { should ensure_length_of(:password).is_at_least(6) }
 	it { should validate_presence_of(:full_name) }
 	it { should have_many(:reviews) }
+	it { should have_many(:queue_items) }
 end

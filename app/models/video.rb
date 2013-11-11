@@ -6,6 +6,7 @@ class Video < ActiveRecord::Base
 
 	belongs_to :category
 	has_many :reviews
+	has_many :queue_items
 
 	def self.search_by_title(keyword)
 		if keyword.blank?

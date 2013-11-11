@@ -15,7 +15,8 @@
           = @video.description
         .actions
           %a.btn.btn-primary(href="") Watch Now
-          %a.btn(href="") + My Queue
+          %a.btn
+            = link_to "+ My Queue", queue_items_path(@video), method: 'post'
 
 %section.reviews.container
   .row

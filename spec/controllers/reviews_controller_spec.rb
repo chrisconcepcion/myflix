@@ -11,21 +11,25 @@ describe ReviewsController do
 					post :create, review: Fabricate.attributes_for(:review), video_id: video.id
 					expect(Review.count).to eq 1
 				end
+
 				it "creates a review associated with a video" do
 					set_current_user
 					post :create, review: Fabricate.attributes_for(:review), video_id: video.id
 					expect(video.reviews.count).to eq 1
 				end
+
 				it "creates a review associated with an user" do
 					set_current_user
 					post :create, review: Fabricate.attributes_for(:review), video_id: video.id
 					expect(current_user.reviews.count).to eq 1
 				end
+
 				it "displays a flash notice" do
 					set_current_user
 					post :create, review: Fabricate.attributes_for(:review), video_id: video.id
 					expect(flash[:notice]).to eq "Your review has been posted."
 				end
+
 				it "redirects to video" do
 					set_current_user
 					post :create, review: Fabricate.attributes_for(:review), video_id: video.id
@@ -39,6 +43,7 @@ describe ReviewsController do
 					post :create, review: { description: ""} , video_id: video.id
 					expect(response).to render_template "videos/show"
 				end
+
 				it "does not create a review" do
 					set_current_user
 					post :create, review: { description: ""} , video_id: video.id
