@@ -4,7 +4,7 @@
       %article
         %header
           %h2 My Queue
-        - @queue_items.each do |queue_item|
+        = form_tag queue_update_path do  
           %table.table
             %thead
               %tr
@@ -15,23 +15,24 @@
                 %th(width="15%") Genre
                 %th(width="15%") Remove
             %tbody
-              %tr
-                %td
-                  %input(type="text" value="1")
-                %td
-                  = link_to "#{queue_item.video_title}"
-                %td
-                  = button_to "Play", nil, class: "btn"
-                %td
-                  %select(name="")
-                    %option(value="5") 5 Stars
-                    %option(value="4") 4 Stars
-                    %option(value="3") 3 Stars
-                    %option(value="2") 2 Stars
-                    %option(value="1") 1 Star
-                %td
-                  = link_to "#{queue_item.video_genre}"
-                %td
-                  = link_to "", method: :post do
-                    %i.icon-remove
-          = button_to "Update Instant Queue", nil, class: "btn"
+              - @queue_items.each do |queue_item|
+                %tr
+                  = hidden_field_tag "queue_item[][id]", queue_item.id
+                  %td= text_field_tag "queue_item[][position]", queue_item.position
+                  %td
+                    = link_to "#{queue_item.video_title}"
+                  %td
+                    = button_to "Play", nil, class: "btn"
+                  %td
+                    %select(name="")
+                      %option(value="5") 5 Stars
+                      %option(value="4") 4 Stars
+                      %option(value="3") 3 Stars
+                      %option(value="2") 2 Stars
+                      %option(value="1") 1 Star
+                  %td
+                    = link_to "#{queue_item.video_genre}"
+                  %td
+                    = link_to queue_item_path(queue_item.id), method: 'delete' do
+                      %i.icon-remove
+          = submit_tag "Update Instant Queue", class: "btn"
