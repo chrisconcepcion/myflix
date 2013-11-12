@@ -6,7 +6,20 @@ class QueueItem < ActiveRecord::Base
 	validates :video_id, presence: true, uniqueness: { scope: :user_id }
 
 	def create_position
-		user = self.user
-		self.update_attributes(position: (user.queue_items.count))
+		update_attributes(position: (user.queue_items.count))
+	end
+
+	def greatest_position?
+		position == user.queue_items.maximum('position')
+	end
+
+	def self.reorder_queue(user)
+		count = 1
+		user.queue_items.order("position ASC").each do |queue_item|
+			queue_item.update_attributes(position: count)
+			count +=1
+		end
+
+
 	end
 end

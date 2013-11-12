@@ -4,20 +4,20 @@
       %article
         %header
           %h2 My Queue
-        - @queue_items.each do |queue_item|
-          %table.table
-            %thead
-              %tr
-                %th(width="10%") List Order
-                %th(width="30%") Video Title
-                %th(width="10%") Play
-                %th(width="20%") Rating
-                %th(width="15%") Genre
-                %th(width="15%") Remove
-            %tbody
+        %table.table
+          %thead
+            %tr
+              %th(width="10%") List Order
+              %th(width="30%") Video Title
+              %th(width="10%") Play
+              %th(width="20%") Rating
+              %th(width="15%") Genre
+              %th(width="15%") Remove
+          %tbody
+            - @queue_items.each do |queue_item|
               %tr
                 %td
-                  %input(type="text" value="1")
+                  %input(type="text" value="#{queue_item.position}")
                 %td
                   = link_to "#{queue_item.video_title}"
                 %td
@@ -32,6 +32,6 @@
                 %td
                   = link_to "#{queue_item.video_genre}"
                 %td
-                  = link_to "", method: :post do
+                  = link_to queue_item_path(queue_item.id), method: 'delete' do
                     %i.icon-remove
-          = button_to "Update Instant Queue", nil, class: "btn"
+        = button_to "Update Instant Queue", nil, class: "btn"
