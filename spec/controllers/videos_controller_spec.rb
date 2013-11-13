@@ -3,6 +3,7 @@ require 'spec_helper'
 describe VideosController do
 	describe "GET show" do
 		let(:video)  { Fabricate(:video) }
+		
 		context "when authenticated" do
 			it "sets video variables" do
 				set_current_user
@@ -27,7 +28,7 @@ describe VideosController do
 				set_current_user
 				review = Fabricate(:review, video_id: video.id, user_id: current_user.id)
 				get :show, id: video.id
-				expect(assigns(:reviews)).to be_decorated
+				expect(assigns(:reviews).class).to eq Draper::CollectionDecorator
 			end
 		end
 
@@ -50,6 +51,7 @@ describe VideosController do
 				get :search, keyword: "Batman"
 				expect(assigns(:search)).to match_array([video1, video2, video3]) 
 			end
+
 			it "displays flash notice if search has no results" do
 				set_current_user
 				video1 = Fabricate(:video, title: 'Batman 1')

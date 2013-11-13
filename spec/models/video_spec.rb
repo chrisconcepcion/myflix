@@ -7,12 +7,14 @@ describe Video do
 	it { should validate_presence_of(:small_cover_url) }
 	it { should validate_presence_of(:large_cover_url) }
 	it { should have_many(:reviews) }
+	it { should have_many(:queue_items) }
 
 	describe "#search_by_title" do
 		it "returns blank array when keyword is blank" do
 			test_video = Fabricate(:video)
 			expect(Video.search_by_title("")).to eq []
 		end
+
 		it "returns a blank array when no title match the keyword" do
 			test_video1 = Fabricate(:video, title: 'Batman 1')
 			test_video2 = Fabricate(:video, title: 'Batman 2' )
@@ -20,6 +22,7 @@ describe Video do
 			test_video4 = Fabricate(:video, title: 'South Park')
 			expect(Video.search_by_title('George')).to eq []
 		end
+		
 		it "returns array of videos that title matches the keyword" do
 			test_video1 = Fabricate(:video, title: 'Batman 1')
 			test_video2 = Fabricate(:video, title: 'Batman 2' )

@@ -15,10 +15,12 @@ describe UsersController do
 				post :create, user: Fabricate.attributes_for(:user) 
 				expect(User.count).to eq 1
 			end
+
 			it "displays a flash message" do
 				post :create, user: Fabricate.attributes_for(:user) 
 				expect(flash[:success]).to eq "You are successfully registered, please sign in."
 			end
+			
 			it "redirects to root" do
 				post :create, user: Fabricate.attributes_for(:user) 
 				expect(response).to redirect_to root_path
