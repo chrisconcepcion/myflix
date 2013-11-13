@@ -98,7 +98,6 @@ describe QueueItemsController do
 		it_behaves_like "when not authenticated" do
 			video = Fabricate(:video) 
 			let(:action) { post :create, video_id: video.id }
-<<<<<<< HEAD
 		end
 	end
 
@@ -213,8 +212,6 @@ describe QueueItemsController do
 
 		it_behaves_like "when not authenticated" do
 			let(:action) { post :update_queue }
-=======
->>>>>>> 09404104c3597ebe5b056bf93fe6d7a0672442a4
 		end
 	end
 
