@@ -1,5 +1,9 @@
 class QueueItemsController < ApplicationController
+<<<<<<< HEAD
 	before_action :require_authentication, only: [:index, :create, :destroy, :update_queue]
+=======
+	before_action :require_authentication, only: [:index, :create, :destroy]
+>>>>>>> 09404104c3597ebe5b056bf93fe6d7a0672442a4
 
 	def index
 		@queue_items = QueueItemDecorator.decorate_collection(current_user.queue_items.order("position ASC"))
@@ -18,6 +22,10 @@ class QueueItemsController < ApplicationController
 	end
 
 	def destroy
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 09404104c3597ebe5b056bf93fe6d7a0672442a4
 		queue_item = current_user.queue_items.find_by(id: params[:id])
 		if queue_item.greatest_position?
 			queue_item.destroy
@@ -28,6 +36,7 @@ class QueueItemsController < ApplicationController
 		redirect_to my_queue_path
 	end
 
+<<<<<<< HEAD
 	def update_queue
 		queue_items = params[:queue_item]
 		if queue_items.uniq {|e| e[:position] } == queue_items && queue_items.detect { |f| f[:position].to_i == 0} == nil
@@ -42,4 +51,6 @@ class QueueItemsController < ApplicationController
 		end
 	end
 
+=======
+>>>>>>> 09404104c3597ebe5b056bf93fe6d7a0672442a4
 end 

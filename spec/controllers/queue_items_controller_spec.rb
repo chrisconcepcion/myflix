@@ -98,6 +98,7 @@ describe QueueItemsController do
 		it_behaves_like "when not authenticated" do
 			video = Fabricate(:video) 
 			let(:action) { post :create, video_id: video.id }
+<<<<<<< HEAD
 		end
 	end
 
@@ -212,6 +213,51 @@ describe QueueItemsController do
 
 		it_behaves_like "when not authenticated" do
 			let(:action) { post :update_queue }
+=======
+>>>>>>> 09404104c3597ebe5b056bf93fe6d7a0672442a4
 		end
 	end
+
+
+
+	describe "DELETE destroy" do
+		let(:user) { Fabricate(:user) }
+		let(:video) { Fabricate(:video) }
+		let(:queue_item) { Fabricate(:queue_item, user_id: user.id, video_id: video.id) }
+
+		context "when authenticated" do
+			let(:queue_item) { Fabricate(:queue_item, user_id: current_user.id, video_id: video.id) }
+			before { set_current_user }
+			
+			it "destroys queue_item record" do
+				delete :destroy, id: queue_item.id
+				expect(QueueItem.count).to eq 0
+			end
+			
+			it "redirects to queue page" do
+				delete :destroy, id: queue_item.id
+				expect(response).to redirect_to my_queue_path
+			end
+
+			context "when destroyed queue_item doesn't have the greatest position" do
+				it "reorders the queue" do
+					queue_item1 = Fabricate(:queue_item, position: 1, user_id: current_user.id, video_id: video.id)
+					video2 = Fabricate(:video)
+					queue_item2 = Fabricate(:queue_item, position: 2, user_id: current_user.id, video_id: video2.id)
+					video3 = Fabricate(:video)
+					queue_item3 = Fabricate(:queue_item, position: 3, user_id: current_user.id, video_id: video3.id)
+					delete :destroy, id: queue_item1.id
+					expect(queue_item2.reload.position).to eq 1
+					expect(queue_item3.reload.position).to eq 2
+				end
+			end
+		end
+
+		it_behaves_like "when not authenticated" do
+			let(:action) { delete :destroy, id: queue_item.id}
+		end
+	end
+
+
+
 end
