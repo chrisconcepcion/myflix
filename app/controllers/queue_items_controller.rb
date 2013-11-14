@@ -30,12 +30,8 @@ class QueueItemsController < ApplicationController
 	end
 
 	def update_queue
-		queue_items = params[:queue_item]
-		if queue_items.uniq {|e| e[:position] } == queue_items && queue_items.detect { |f| f[:position].to_i == 0} == nil
-			queue_items.each do |q|
-				current_user.queue_items.find_by(id: q[:id]).update_attributes(position: q[:position])
-			end
-			QueueItem.reorder_queue(current_user)
+		
+		if UpdateQueue.new(current_user).update_queue(params[:queue_item])
 			redirect_to my_queue_path
 		else
 			flash[:notice] = "List order only can contain numbers and each video must have a unique number."

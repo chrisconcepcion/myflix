@@ -18,7 +18,5 @@ class QueueItem < ActiveRecord::Base
 			queue_item.update_attributes(position: count)
 			count +=1
 		end
-
-
 	end
 end
