@@ -149,63 +149,22 @@ describe QueueItemsController do
 			let(:queue_item3) { Fabricate(:queue_item, user_id: current_user.id, video_id: video3.id, position: 3) }
 			before { set_current_user }
 
-			context "with valid inputs" do
-				it "updates queue positions" do
-					post :update_queue, queue_item: [ {id: queue_item1.id, position: 2}, {id: queue_item2.id, position: 3}, {id: queue_item3.id, position: 1} ]
-					expect(queue_item1.reload.position).to eq 2
-					expect(queue_item2.reload.position).to eq 3
-					expect(queue_item3.reload.position).to eq 1
-				end
-
-				it "reorders queue positions" do
-					post :update_queue, queue_item: [ {id: queue_item1.id, position: 4}, {id: queue_item2.id, position: 5}, {id: queue_item3.id, position: 3} ]
-					expect(queue_item1.reload.position).to eq 2
-					expect(queue_item2.reload.position).to eq 3
-					expect(queue_item3.reload.position).to eq 1
-				end
-
+			context "when update_queue returns true" do
 				it "redirects to queue page" do
 					post :update_queue, queue_item: [ {id: queue_item1.id, position: 2}, {id: queue_item2.id, position: 3}, {id: queue_item3.id, position: 1} ]
 					expect(response).to redirect_to my_queue_path
 				end
 			end
-			context "with invalid inputs" do
-				context "with non-integer inputs as positions" do
-					it "does not update queue positions" do
-						post :update_queue, queue_item: [ {id: queue_item1.id, position: 1}, {id: queue_item2.id, position: "coolio"}, {id: queue_item3.id, position: "lawl"} ]
-						expect(queue_item1.reload.position).to eq 1
-						expect(queue_item2.reload.position).to eq 2
-						expect(queue_item3.reload.position).to eq 3
-					end		
 
-					it "displays a flash notice" do
-						post :update_queue, queue_item: [ {id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1}, {id: queue_item3.id, position: "lawl"} ]
-						expect(flash[:notice]).to eq "List order only can contain numbers and each video must have a unique number."
-					end	
+			context "when update_queue returns false" do
+				it "displays a flash notice" do
+					post :update_queue, queue_item: [ {id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1}, {id: queue_item3.id, position: "lawl"} ]
+					expect(flash[:notice]).to eq "List order only can contain numbers and each video must have a unique number."
+				end	
 
-					it "redirects to queue_pages" do
-						post :update_queue, queue_item: [ {id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1}, {id: queue_item3.id, position: "lawl"} ]
-						expect(response).to redirect_to my_queue_path
-					end
-				end
-
-				context "with non-unique integer inputs as positions" do
-					it "does not update queue positions" do
-						post :update_queue, queue_item: [ {id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1}, {id: queue_item3.id, position: "lawl"} ]
-						expect(queue_item1.reload.position).to eq 1
-						expect(queue_item2.reload.position).to eq 2
-						expect(queue_item3.reload.position).to eq 3
-					end		
-
-					it "displays a flash notice" do
-						post :update_queue, queue_item: [ {id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1}, {id: queue_item3.id, position: 2} ]
-						expect(flash[:notice]).to eq "List order only can contain numbers and each video must have a unique number."
-					end	
-
-					it "redirects to queue_pages" do
-						post :update_queue, queue_item: [ {id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1}, {id: queue_item3.id, position: "lawl"} ]
-						expect(response).to redirect_to my_queue_path
-					end
+				it "redirects to queue_pages" do
+					post :update_queue, queue_item: [ {id: queue_item1.id, position: 1}, {id: queue_item2.id, position: 1}, {id: queue_item3.id, position: "lawl"} ]
+					expect(response).to redirect_to my_queue_path
 				end
 			end
 		end
@@ -214,8 +173,6 @@ describe QueueItemsController do
 			let(:action) { post :update_queue }
 		end
 	end
-
-
 
 	describe "DELETE destroy" do
 		let(:user) { Fabricate(:user) }
