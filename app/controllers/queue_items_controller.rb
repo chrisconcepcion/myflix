@@ -38,6 +38,4 @@ class QueueItemsController < ApplicationController
 			redirect_to my_queue_path
 		end
 	end
-
-
 end 

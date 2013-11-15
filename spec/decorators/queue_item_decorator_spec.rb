@@ -11,17 +11,27 @@ describe QueueItemDecorator do
 	end
 
 	describe "#video_genre" do
-		it "returns video category name" do
-			user = Fabricate(:user)
-			category = Fabricate(:category)
-			video = Fabricate(:video, category_id: category.id)
-			queue_item = Fabricate(:queue_item, video_id: video.id, user_id: user.id)
-			expect(QueueItemDecorator.decorate(queue_item).video_genre).to eq queue_item.video.category.name
+		context "when queued video has a category" do
+			it "returns video category name" do
+				user = Fabricate(:user)
+				category = Fabricate(:category)
+				video = Fabricate(:video, category_id: category.id)
+				queue_item = Fabricate(:queue_item, video_id: video.id, user_id: user.id)
+				expect(QueueItemDecorator.decorate(queue_item).video_genre).to eq queue_item.video.category.name
+			end
+		end
+		context "when queued video doesn't have a category" do
+			it "returns nil" do
+				user = Fabricate(:user)
+				video = Fabricate(:video)
+				queue_item = Fabricate(:queue_item, video_id: video.id, user_id: user.id)
+				expect(QueueItemDecorator.decorate(queue_item).video_genre).to eq nil
+			end
 		end
 	end
 
 	describe "#rating" do
-		context "when user has reviewed queued video"
+		context "when user has reviewed queued video" do
 			it "returns rating of queued video" do
 				user = Fabricate(:user)
 				video = Fabricate(:video)
@@ -29,6 +39,8 @@ describe QueueItemDecorator do
 				queue_item = Fabricate(:queue_item, video_id: video.id, user_id: user.id)
 				expect(QueueItemDecorator.decorate(queue_item).rating).to eq 3
 			end
+		end
+
 		context "when user has not reviewed queue video" do
 			it "returns nil" do
 				user = Fabricate(:user)
