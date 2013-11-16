@@ -61,7 +61,12 @@ describe QueueItemsController do
 					post :create, video_id: video.id
 					expect(QueueItem.first.video).to eq video
 				end
-				
+
+				it "displays a flash notice" do
+					post :create, video_id: video.id
+					expect(flash[:notice]).to eq "#{video.title} has been added to your queue."
+				end
+
 				it "redirects to queue page" do
 					post :create, video_id: video.id
 					expect(response).to redirect_to my_queue_path

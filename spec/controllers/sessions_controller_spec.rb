@@ -34,6 +34,11 @@ describe SessionsController do
 				post :create, email: user.email, password: user.password
 				expect(response).to redirect_to home_path
 			end
+
+			it "displays a flash notice" do
+				post :create, email: user.email, password: user.password
+				expect(flash[:notice]).to eq "You have logged in successfully."
+			end
 		end
 
 		context "with invalid input" do

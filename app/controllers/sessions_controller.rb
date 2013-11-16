@@ -12,6 +12,7 @@ class SessionsController < ApplicationController
 		user = User.find_by(email: params[:email])
 		if user && user.authenticate(params[:password])
 			session[:user_id] = user.id
+			flash[:notice] = "You have logged in successfully."
 			redirect_to home_path
 		else
 			flash[:notice] = "Incorrect email or password. Please try again."

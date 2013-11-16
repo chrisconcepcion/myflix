@@ -6,7 +6,8 @@ class QueueItemDecorator < Draper::Decorator
 	end
 
 	def video_genre
-		self.video.category.name
+		category = video.category
+		category.name if category
 	end
 
 	def rating
