@@ -18,13 +18,13 @@
               - @queue_items.each do |queue_item|
                 %tr
                   = hidden_field_tag "queue_item[][id]", queue_item.id
-                  %td= text_field_tag "queue_item[][position]", queue_item.position
+                  %td= text_field_tag "queue_item[][position]", queue_item.position, id: "queue_item_#{queue_item.id}_position"
                   %td
                     = link_to "#{queue_item.video_title}", video_path(queue_item.video)
                   %td
                     = button_to "Play", nil, class: "btn"
                   %td
-                    = select_tag "queue_item[][rating", options_for_select([["5 Stars", 5], ["4 Stars", 4], ["3 Stars", 3], ["2 Stars", 2], ["1 Star", 1]], queue_item.rating), include_blank: true
+                    = select_tag "queue_item[][rating", options_for_select([["5 Stars", 5], ["4 Stars", 4], ["3 Stars", 3], ["2 Stars", 2], ["1 Star", 1]], queue_item.rating), include_blank: true, id: "queue_item_#{queue_item.id}_rating"
                       
                   %td
                     = link_to "#{queue_item.video_genre}", category_path(queue_item.video_category)
