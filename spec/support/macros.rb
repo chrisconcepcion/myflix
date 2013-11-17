@@ -1,8 +1,8 @@
-def set_current_user(user = nil)
-	if user == nil
-		user = Fabricate(:user)
+def set_current_user(a_user = nil)
+	if a_user == nil
+		a_user = Fabricate(:user)
 	end
-	session[:user_id] = user.id
+	session[:user_id] = a_user.id
 end
 
 def current_user
@@ -10,8 +10,8 @@ def current_user
 	User.find_by(session[:user_id])
 end
 
-def sign_in(user = nil)
-  user = (user || Fabricate(:user))
+def sign_in(a_user = nil)
+  user = (a_user || Fabricate(:user))
   visit '/sign_in'
   fill_in "Email", with: user.email
   fill_in "Password", with: user.password
