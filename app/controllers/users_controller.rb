@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+	before_action :require_authentication, only: [:show]
 
 	def new
 		@user = User.new
@@ -12,6 +13,10 @@ class UsersController < ApplicationController
 		else
 			render :new
 		end
+	end
+
+	def show
+		@user = UserDecorator.decorate(User.find_by(id: params[:id]))
 	end
 
 private

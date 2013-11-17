@@ -38,4 +38,27 @@ describe UsersController do
 			end
 		end
 	end
+
+	describe "GET show" do
+		let(:user) { Fabricate(:user) }
+
+		context "when authenticated" do
+			before { set_current_user }
+
+			it "sets user variable" do
+				get :show, id: current_user.id
+				expect(assigns(:user)).to eq current_user
+			end
+
+			it "decorators user variable" do
+				get :show, id: current_user.id
+				expect(assigns(:user)).to be_decorated_with UserDecorator
+			end
+
+		end
+
+		it_behaves_like "when not authenticated" do
+			let(:action) { get :show, id: user.id }
+		end
+	end
 end
