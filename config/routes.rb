@@ -28,6 +28,7 @@ Myflix::Application.routes.draw do
   post 'queue_update', to: 'queue_items#update_queue'
 
   get '/people', to: 'relationships#index'
+  delete '/people', to: 'relationships#destroy'
 
 
 end

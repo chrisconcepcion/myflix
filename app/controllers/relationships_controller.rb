@@ -1,5 +1,5 @@
 class RelationshipsController < ApplicationController
-before_action :require_authentication, only: [:index, :create]
+before_action :require_authentication, only: [:index, :create, :destroy]
 
 	def index
 		@relationships = RelationshipDecorator.decorate_collection(current_user.following_relationships)
@@ -15,5 +15,10 @@ before_action :require_authentication, only: [:index, :create]
 			flash[:notice] = "You are already following this user"
 			redirect_to user_path(user)
 		end
+	end
+
+	def destroy
+		relationship = current_user.following_relationships.find_by(id: params[:id]).destroy
+		redirect_to people_path
 	end
 end

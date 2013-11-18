@@ -51,6 +51,7 @@ describe RelationshipsController do
 					expect(response).to redirect_to user_path(user)
 				end
 			end
+
 			context "when already following the user" do
 				it "does not create a new relationship" do
 					user = Fabricate(:user)
@@ -77,6 +78,30 @@ describe RelationshipsController do
 
 		it_behaves_like "when not authenticated" do
 			let(:action) { post :create, user_id: 1}
+		end
+	end
+
+	describe "DELETE destroy" do
+		context "when authenticated" do
+			before { set_current_user }
+
+			it "unfollows a user" do
+				user = Fabricate(:user)
+				relationship = Fabricate(:relationship, leader_id: user.id, follower_id: current_user.id)
+				delete :destroy, id: relationship.id
+				expect(current_user.reload.following_relationships.find_by(leader_id: user.id)).to eq nil
+			end
+
+			it "redirects to people page" do
+				user = Fabricate(:user)
+				relationship = Fabricate(:relationship, leader_id: user.id, follower_id: current_user.id)
+				delete :destroy, id: relationship.id
+				expect(response).to redirect_to people_path
+			end
+		end
+
+		it_behaves_like "when not authenticated" do
+			let(:action) { delete :destroy }
 		end
 	end
 end
