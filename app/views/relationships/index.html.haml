@@ -17,5 +17,5 @@
           %td.extra-padding #{relationship.leader_total_queue_items}
           %td.extra-padding #{relationship.leader_total_followers}
           %td.extra-padding
-            = link_to people_path(id: relationship), method: 'delete' do
+            = link_to people_path(id: relationship), method: 'delete', id: "end_relationship_#{relationship.id}" do
               %i.icon-remove
