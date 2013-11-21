@@ -19,13 +19,16 @@ Myflix::Application.routes.draw do
   get '/sign_in', to: 'sessions#new'
   get '/sign_out', to: 'sessions#destroy'
 
-  resources :users, only: [:new, :create]
+  resources :users, only: [:new, :create, :show] do
+    resources :relationships, only: [:create]
+  end
   
   get 'my_queue', to: 'queue_items#index'
   resources :queue_items, only: [:destroy]
   post 'queue_update', to: 'queue_items#update_queue'
 
-  
+  get '/people', to: 'relationships#index'
+  delete '/people', to: 'relationships#destroy'
 
 
 end

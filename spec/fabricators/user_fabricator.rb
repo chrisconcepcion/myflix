@@ -1,7 +1,7 @@
 Fabricator(:user) do
-	email Faker::Internet.email
-	full_name Faker::Name.name
-	password Faker::Name.name
+	email { Faker::Internet.email }
+	full_name { Faker::Name.name } 
+	password { Faker::Name.name }
 end
 
 Fabricator(:invalid_user, from: :user) do

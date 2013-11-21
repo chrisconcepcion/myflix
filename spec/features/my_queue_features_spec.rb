@@ -75,5 +75,4 @@ feature "my_queue features" do
     find(:xpath, "//a[contains(@href,'/videos/#{video.id}')]").click
     click_link "+ My Queue"
   end
-
 end
