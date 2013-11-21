@@ -6,6 +6,7 @@ gem 'bootstrap-sass', '~> 2.3.2.2'
 gem 'draper' ,'~> 1.0'
 gem 'bcrypt-ruby'
 gem 'bootstrap_form'
+gem "figaro"
 
 
 group :assets do
@@ -18,6 +19,7 @@ group :development do
   gem 'sqlite3'
   gem 'pry'
   gem 'pry-nav'
+  gem "letter_opener"
 end
 
 group :development, :test do
