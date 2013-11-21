@@ -36,6 +36,8 @@
             %li.row
               .span2
                 %span Rating: #{review.rating}
-                %p by <a href="">#{review.reviewer_name}</a>
+                %p 
+                  by
+                  = link_to "#{review.reviewer_name}", user_path(review.user)
               .span8
                 %p #{review.description}
