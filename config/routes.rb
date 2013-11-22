@@ -30,5 +30,12 @@ Myflix::Application.routes.draw do
   get '/people', to: 'relationships#index'
   delete '/people', to: 'relationships#destroy'
 
+  get 'forgot_password', to: 'forgot_passwords#new'
+  post 'forgot_password', to: 'forgot_passwords#create'
+  get 'confirm_password_reset', to: 'forgot_passwords#confirm'
+
+  get 'password_reset/:token', to: 'password_resets#new', as: 'password_reset'
+  post 'password_reset/:token', to: 'password_resets#create'
+  get 'invalid_token', to: 'password_resets#invalid_token'
 
 end

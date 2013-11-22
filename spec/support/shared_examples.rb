@@ -8,3 +8,10 @@ shared_examples "when not authenticated" do
 		expect(response).to redirect_to sign_in_path
 	end
 end
+
+shared_examples "when token doesn't match a user token" do
+	it "redirects to invalid token page" do
+		action
+		expect(response).to redirect_to invalid_token_path
+	end
+end

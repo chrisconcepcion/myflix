@@ -16,6 +16,23 @@ describe UsersController do
 				expect(User.count).to eq 1
 			end
 
+			context "email sending" do
+				it "sends out an email" do
+					post :create, user: Fabricate.attributes_for(:user)
+					expect(ActionMailer::Base.deliveries).to_not be_empty
+				end
+
+				it "sends it to the new user" do
+					post :create, user: Fabricate.attributes_for(:user)
+					expect(ActionMailer::Base.deliveries.last.to).to eq [User.first.email]
+				end
+
+				it "has the right content" do
+					post :create, user: Fabricate.attributes_for(:user)
+					expect(ActionMailer::Base.deliveries.last.body).to include("your username is: #{User.first.email}")
+				end
+			end
+
 			it "displays a flash message" do
 				post :create, user: Fabricate.attributes_for(:user) 
 				expect(flash[:success]).to eq "You are successfully registered, please sign in."
