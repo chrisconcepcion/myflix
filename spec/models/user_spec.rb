@@ -10,11 +10,13 @@ describe User do
 	it { should have_many(:queue_items) }
 	it { should have_many(:leading_relationships) }
 	it { should have_many(:following_relationships) }
+	it { should have_many(:invitations) }
 
 	
-	it "generates a random token when a user is created" do
-		user = Fabricate(:user)
-		expect(user.token).to be_present
+	context "when an user is created" do
+		it_behaves_like "tokenable" do
+			let(:object) { Fabricate(:user) }
+		end
 	end
 
 	describe "#generate_new_token" do

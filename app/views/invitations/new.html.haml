@@ -1,0 +1,13 @@
+%section.invite.container
+  .row
+    .span10.offset1
+      = bootstrap_form_for(@invitation, html: { class: 'invite' }, help: :block) do |f|
+        %header
+          %h1 Invite a friend to join MyFlix!
+        %fieldset
+          = f.alert_message "Please fix the errors below."
+          = f.text_field :recipient_name, label: "Friend's Name"
+          = f.text_field :recipient_email, label: "Friend's Email Address"
+          = f.text_area :message, rows: 6, class: 'span4', label: 'Invitation Message'
+        %fieldset.action
+          %input(type="submit" value="Send Invitation" class="btn")

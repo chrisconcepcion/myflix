@@ -8,6 +8,7 @@ gem 'draper' ,'~> 1.0'
 gem 'bcrypt-ruby'
 gem 'bootstrap_form'
 gem "figaro"
+gem 'capybara-email'
 
 
 group :assets do

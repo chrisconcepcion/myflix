@@ -15,3 +15,10 @@ shared_examples "when token doesn't match a user token" do
 		expect(response).to redirect_to invalid_token_path
 	end
 end
+
+
+shared_examples "tokenable" do
+	it "generates a random token when the object is created" do
+		expect(object.token).to be_present
+	end
+end
