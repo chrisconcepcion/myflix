@@ -47,4 +47,8 @@ Myflix::Application.routes.draw do
 
   get 'invite', to: 'invitations#new'
   resources :invitations, only: [:create]
+
+  namespace(:admin) do
+    resources :videos, only: [:new]
+  end
 end

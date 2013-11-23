@@ -7,3 +7,7 @@ end
 Fabricator(:invalid_user, from: :user) do
 	password ""
 end
+
+Fabricator(:admin, from: :user) do
+	admin true
+end

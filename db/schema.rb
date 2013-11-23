@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131123032217) do
+ActiveRecord::Schema.define(version: 20131123203152) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -48,10 +48,11 @@ ActiveRecord::Schema.define(version: 20131123032217) do
   end
 
   create_table "users", force: true do |t|
-    t.string "email"
-    t.string "password_digest"
-    t.string "full_name"
-    t.string "token"
+    t.string  "email"
+    t.string  "password_digest"
+    t.string  "full_name"
+    t.string  "token"
+    t.boolean "admin",           default: false
   end
 
   create_table "videos", force: true do |t|

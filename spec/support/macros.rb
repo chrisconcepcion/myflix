@@ -10,6 +10,13 @@ def current_user
 	User.find_by(session[:user_id])
 end
 
+def set_admin(a_user = nil)
+	if a_user == nil
+		a_user = Fabricate(:admin)
+		session[:user_id] = a_user.id
+	end
+end
+
 def sign_in(a_user = nil)
   user = (a_user || Fabricate(:user))
   visit '/sign_in'
@@ -17,6 +24,7 @@ def sign_in(a_user = nil)
   fill_in "Password", with: user.password
   click_button "Sign in"
 end
+
 
 def sign_out
 	visit sign_out_path
