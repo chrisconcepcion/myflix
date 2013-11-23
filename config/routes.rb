@@ -1,5 +1,8 @@
 Myflix::Application.routes.draw do
 	root to: 'sessions#welcome'
+  
+  require 'sidekiq/web'
+  mount Sidekiq::Web, at: '/sidekiq'
 
   get 'ui(/:action)', controller: 'ui'
 
