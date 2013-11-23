@@ -3,9 +3,9 @@
   <body>
     <p> 
     	<% if @invitation.recipient_name.blank? %>
-      	You have been invited to join MyFLix, click  <%=  link_to "here", register_token_url(invitation_token: @invitation.invitation_token) %> to join the best video service available!
+      	You have been invited to join MyFLix, click  <%=  link_to "here", register_token_url(invitation_token: @invitation.token) %> to join the best video service available!
       <% else %>
-      	<%= @invitation.recipient_name %> You have been invited to join MyFLix, click  <%=  link_to "here", register_token_url(invitation_token: @invitation.invitation_token) %> to join the best video service available!
+      	<%= @invitation.recipient_name %> You have been invited to join MyFLix, click  <%=  link_to "here", register_token_url(invitation_token: @invitation.token) %> to join the best video service available!
       <% end %>	
     </p>
   </body>

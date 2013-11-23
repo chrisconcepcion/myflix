@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+	include Tokenable
 	has_secure_password validations: false
 	
 	has_many :reviews
@@ -11,14 +12,10 @@ class User < ActiveRecord::Base
 	validates :full_name, presence: true
 	validates :password, presence: true, length: { minimum: 6 }
 
-	before_create :generate_token
 
 	def generate_new_token
 		self.update_attributes(token: SecureRandom.urlsafe_base64)
 	end
 
-private
-	def generate_token
-		self.token = SecureRandom.urlsafe_base64
-	end
+
 end

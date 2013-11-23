@@ -6,10 +6,10 @@ class UsersController < ApplicationController
 	end
 
 	def new_with_invitation_token
-		invitation = Invitation.find_by(invitation_token: params[:invitation_token])
+		invitation = Invitation.find_by(token: params[:invitation_token])
 		if invitation
 			@user = User.new(email: invitation.recipient_email)
-			@invitation_token = invitation.invitation_token
+			@invitation_token = invitation.token
 			render :new
 		else
 			redirect_to invalid_token_path
@@ -38,10 +38,10 @@ private
 	end
 
 	def handle_invitation
-		invitation = Invitation.find_by(invitation_token: params[:invitation_token])
+		invitation = Invitation.find_by(token: params[:invitation_token])
 		inviter = invitation.user
 		@user.following_relationships.create(leader: inviter)
 		inviter.following_relationships.create(leader: @user)
-		invitation.update_column(:invitation_token, nil)
+		invitation.update_column(:token, nil)
 	end
 end

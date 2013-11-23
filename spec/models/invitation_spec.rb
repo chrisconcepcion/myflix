@@ -5,9 +5,10 @@ describe Invitation do
 	it { should validate_presence_of(:recipient_email) }
 	it { should validate_presence_of(:user_id) }
 
-	it "generates an invitation token upon creation" do
-		user = Fabricate(:user)
-		invitation = Fabricate(:invitation, user_id: user.id)
-		expect(invitation.reload.invitation_token).to be_present
+	context "when an invitation is created" do
+		let(:user) { Fabricate(:user) }
+		it_behaves_like "tokenable" do
+			let(:object) { Fabricate(:invitation, user_id: user.id) }
+		end
 	end
 end

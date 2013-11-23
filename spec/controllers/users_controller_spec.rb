@@ -14,21 +14,21 @@ describe UsersController do
 			it "sets user variable to new record" do
 				user = Fabricate(:user)
 				invitation = Fabricate(:invitation, user_id: user.id)
-				get :new_with_invitation_token, invitation_token: invitation.invitation_token
+				get :new_with_invitation_token, invitation_token: invitation.token
 				expect(assigns(:user).email).to eq invitation.recipient_email
 			end
 
 			it "sets invitation token variable" do
 				user = Fabricate(:user)
 				invitation = Fabricate(:invitation, user_id: user.id)
-				get :new_with_invitation_token, invitation_token: invitation.invitation_token
-				expect(assigns(:invitation_token)).to eq invitation.invitation_token
+				get :new_with_invitation_token, invitation_token: invitation.token
+				expect(assigns(:invitation_token)).to eq invitation.token
 			end
 
 			it "renders new user page" do
 				user = Fabricate(:user)
 				invitation = Fabricate(:invitation, user_id: user.id)
-				get :new_with_invitation_token, invitation_token: invitation.invitation_token
+				get :new_with_invitation_token, invitation_token: invitation.token
 				expect(response).to render_template :new
 			end
 		end
@@ -68,20 +68,20 @@ describe UsersController do
 					it "new user is following inviter" do
 						inviter = Fabricate(:user)
 						invitation = Fabricate(:invitation, user_id: inviter.id)
-						post :create, user: Fabricate.attributes_for(:user), invitation_token: invitation.invitation_token
+						post :create, user: Fabricate.attributes_for(:user), invitation_token: invitation.token
 						expect(assigns(:user).following_relationships.first.leader).to eq inviter
 					end
 					it "inviter is following new user" do
 						inviter = Fabricate(:user)
 						invitation = Fabricate(:invitation, user_id: inviter.id)
-						post :create, user: Fabricate.attributes_for(:user), invitation_token: invitation.invitation_token
+						post :create, user: Fabricate.attributes_for(:user), invitation_token: invitation.token
 						expect(inviter.reload.following_relationships.first.leader).to eq assigns(:user)
 					end
 					it "expires the invitation" do
 						inviter = Fabricate(:user)
 						invitation = Fabricate(:invitation, user_id: inviter.id)
-						post :create, user: Fabricate.attributes_for(:user), invitation_token: invitation.invitation_token
-						expect(invitation.reload.invitation_token).to eq nil
+						post :create, user: Fabricate.attributes_for(:user), invitation_token: invitation.token
+						expect(invitation.reload.token).to eq nil
 					end
 				end
 			end
@@ -91,9 +91,9 @@ describe UsersController do
 				expect(flash[:success]).to eq "You are successfully registered, please sign in."
 			end
 			
-			it "redirects to root" do
+			it "redirects to sign in" do
 				post :create, user: Fabricate.attributes_for(:user) 
-				expect(response).to redirect_to root_path
+				expect(response).to redirect_to sign_in_path
 			end
 		end
 		context "with invalid input" do
@@ -124,7 +124,6 @@ describe UsersController do
 				get :show, id: current_user.id
 				expect(assigns(:user)).to be_decorated_with UserDecorator
 			end
-
 		end
 
 		it_behaves_like "when not authenticated" do
