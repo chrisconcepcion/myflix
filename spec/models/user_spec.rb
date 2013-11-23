@@ -10,6 +10,7 @@ describe User do
 	it { should have_many(:queue_items) }
 	it { should have_many(:leading_relationships) }
 	it { should have_many(:following_relationships) }
+	it { should have_many(:invitations) }
 
 	
 	it "generates a random token when a user is created" do
