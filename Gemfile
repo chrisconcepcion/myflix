@@ -11,6 +11,7 @@ gem "figaro"
 gem 'sidekiq'
 gem 'unicorn'
 gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'carrierwave'
 
 
 group :assets do
