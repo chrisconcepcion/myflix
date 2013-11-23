@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-	default from: "change after you get heroku url"
+	default from: "info@myflix.com"
 
 	def welcome_email(user)
 		@user = user
