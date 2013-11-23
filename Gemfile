@@ -8,7 +8,8 @@ gem 'draper' ,'~> 1.0'
 gem 'bcrypt-ruby'
 gem 'bootstrap_form'
 gem "figaro"
-gem 'capybara-email'
+gem 'sidekiq'
+gem 'unicorn'
 
 
 group :assets do
@@ -39,6 +40,7 @@ group :test do
 	gem "selenium-webdriver", "~> 2.35.1"
 	gem "shoulda-matchers"
 	gem 'fabrication'
+	gem 'capybara-email'
 end
 
 
