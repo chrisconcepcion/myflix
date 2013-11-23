@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 		@user = User.create(user_params)
 		if @user.save
 			handle_invitation if params[:invitation_token].present?
-			UserMailer.welcome_email(@user).deliver
+			
 			flash[:success] = "You are successfully registered, please sign in."
 			redirect_to sign_in_path
 		else
