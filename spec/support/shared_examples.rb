@@ -22,3 +22,14 @@ shared_examples "tokenable" do
 		expect(object.token).to be_present
 	end
 end
+
+shared_examples "when user is not admin" do
+	it "redirects to root_path" do
+		action
+		expect(response).to redirect_to root_path
+	end
+	it "displays a flash error" do
+		action
+		expect(flash[:error]).to eq "You are not authorized to perform this action."
+	end
+end

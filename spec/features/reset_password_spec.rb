@@ -16,5 +16,7 @@ feature "Reset Password" do
 		fill_in "password", with: "feature_spec"
 		click_button "Sign in"
 		expect(page).to have_content "You have logged in successfully."
+		
 	end
+
 end

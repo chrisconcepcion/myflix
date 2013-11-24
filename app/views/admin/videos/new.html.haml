@@ -1,0 +1,21 @@
+%section.admin_add_video
+  .container
+    .row
+      .span10.offset1
+        = bootstrap_form_for(@video, url: admin_videos_path, html: { class: 'form-horizontal' }, help: :block) do |f|
+          %ul.nav.nav-tabs
+            %li
+              %a(href="/ui/admin_views_payments") Recent Payments
+            %li.active
+              %a(href="") Add a New Video
+          %fieldset
+            = f.alert_message "Please fix the errors below."
+            = f.text_field :title
+            = f.select :category_id, options_from_collection_for_select(Category.all, "id", "name")
+            = f.text_area :description, class: 'span6', rows: 8
+            = f.file_field :large_cover, class: 'btn btn-file'
+            = f.file_field :small_cover, class: 'btn btn-file'
+            = f.text_field :location
+          %fieldset.actions.control-group
+            .controls
+              %input(type="submit" value="Add Video" class="btn")
