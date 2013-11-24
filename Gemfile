@@ -5,7 +5,7 @@ gem 'rails', '4.0.0'
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 2.3.2.2'
 gem 'draper' ,'~> 1.0'
-gem 'bcrypt-ruby'
+gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'bootstrap_form'
 gem "figaro"
 gem 'sidekiq'

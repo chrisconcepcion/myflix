@@ -8,7 +8,7 @@ class Video < ActiveRecord::Base
 	has_many :queue_items
 
 	mount_uploader :small_cover, SmallCoverUploader
-	mount_uploader :large_cover, SmallCoverUploader
+	mount_uploader :large_cover, LargeCoverUploader
 
 	def self.search_by_title(keyword)
 		if keyword.blank?
