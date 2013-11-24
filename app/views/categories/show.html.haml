@@ -12,4 +12,4 @@
     - @category.recent_videos.each do |video|
       .video.span2
         = link_to video_path(video) do 
-          %img(src="/tmp/#{video.small_cover_url}")
+          %img(src="#{video.small_cover_url}")
