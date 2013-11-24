@@ -12,6 +12,8 @@ gem 'sidekiq'
 gem 'unicorn'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'carrierwave'
+gem "fog", "~> 1.3.1"
+
 
 
 group :assets do
