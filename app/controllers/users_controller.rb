@@ -17,12 +17,20 @@ class UsersController < ApplicationController
 	end
 
 	def create
-		@user = User.create(user_params)
-		if @user.save
-			handle_invitation if params[:invitation_token].present?
-			UserMailer.delay.welcome_email(@user)
-			flash[:success] = "You are successfully registered, please sign in."
-			redirect_to sign_in_path
+		@user = User.new(user_params)
+		if @user.valid?
+			token = params[:stripeToken]
+			charge = StripeWrapper::Charge.create(amount: 9990, currency: 'usd', card: token)
+			if charge.successful?
+  				@user.save
+					handle_invitation if params[:invitation_token].present?
+					UserMailer.delay.welcome_email(@user)
+					flash[:success] = "You are successfully registered, please sign in."
+					redirect_to sign_in_path
+			else
+				flash[:error] = charge.error_message
+				render :new
+			end
 		else
 			render :new
 		end

@@ -2,7 +2,7 @@
   .container
     .row
       .video_large_cover.span7.offset1
-        %img(src="/tmp/#{@video.large_cover_url}")
+        %img(src="#{@video.large_cover_url}")
       .video_info.span3
         %header
           %h3
@@ -14,7 +14,7 @@
         %p 
           = @video.description
         .actions
-          %a.btn.btn-primary(href="") Watch Now
+          = link_to "Watch Now", "#{@video.location}", class: 'btn btn-primary'
           - unless @video.queued?(current_user)
             = link_to "+ My Queue", video_queue_items_path(@video), method: 'post', class: 'btn'
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "Invite User" do
+feature "Invite User", js: true do
 	background { clear_email }
 	given (:inviter) { Fabricate(:user) } 
 	scenario "User sends an invitation to join MyFLix and user registers" do
@@ -13,9 +13,15 @@ feature "Invite User" do
 		sign_out
 		open_email("testing@test.com")
 		current_email.click_link "here"
+		expect(find_field('Email').value.should eq 'testing@test.com')
 		fill_in "Password", with: "testing"
 		fill_in "Full name", with: "Testing McTestingson"
+		fill_in "Credit Card Number", with: '4242424242424242'
+		fill_in "Security Code", with: '123'
+		select(12, :from => "date_month")
+    select(2017, :from => "date_year")
 		click_button "Sign Up"
+		sleep 10
 		fill_in "Email", with: "testing@test.com"
 		fill_in "Password", with: "testing"
 		click_button "Sign in"

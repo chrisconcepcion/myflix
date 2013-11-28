@@ -42,9 +42,18 @@ describe UsersController do
 	end
 
 	describe "POST create" do
+		let(:valid_credit_card_token) { Stripe::Token.create(card: { number: 4242424242424242, exp_month: 12, exp_year: 2022, cvc: 123}).id }
+		let(:invalid_credit_card_token) { Stripe::Token.create(card: { number: 4000000000000002, exp_month: 12, exp_year: 2022, cvc: 123}).id }
 		context "with valid input" do
+			before do
+				charge = double("charge")
+				charge.stub(:successful?).and_return(true)
+				StripeWrapper::Charge.stub(:create).and_return(charge)
+			end
+
 			it "creates a new record" do
-				post :create, user: Fabricate.attributes_for(:user) 
+				
+				post :create, user: Fabricate.attributes_for(:user)
 				expect(User.count).to eq 1
 			end
 
@@ -87,24 +96,49 @@ describe UsersController do
 			end
 
 			it "displays a flash message" do
-				post :create, user: Fabricate.attributes_for(:user) 
+				post :create, user: Fabricate.attributes_for(:user)
 				expect(flash[:success]).to eq "You are successfully registered, please sign in."
 			end
 			
 			it "redirects to sign in" do
-				post :create, user: Fabricate.attributes_for(:user) 
+				post :create, user: Fabricate.attributes_for(:user)
 				expect(response).to redirect_to sign_in_path
 			end
 		end
 		context "with invalid input" do
-			it "renders a template" do
-				post :create, user: Fabricate.attributes_for(:invalid_user)
-				expect(response).to render_template :new
+			before do
+				charge = double("charge")
+				charge.stub(:successful?).and_return(false)
+				charge.stub(:error_message).and_return("error_message")
+				StripeWrapper::Charge.stub(:create).and_return(charge)
+			end
+			context "with invalid user field input" do
+				it "renders a template" do
+					post :create, user: Fabricate.attributes_for(:invalid_user)
+					expect(response).to render_template :new
+				end	
+
+				it "does not create a user" do
+					post :create, user: Fabricate.attributes_for(:invalid_user)
+					expect(User.count).to eq 0
+				end
 			end
 
-			it "does not create a user" do
-				post :create, user: Fabricate.attributes_for(:invalid_user)
-				expect(User.count).to eq 0
+			context "with valid user and invalid credit card" do
+				it "renders a template" do
+					post :create, user: Fabricate.attributes_for(:user)
+					expect(response).to render_template :new
+				end	
+
+				it "does not create a user" do
+					post :create, user: Fabricate.attributes_for(:user)
+					expect(User.count).to eq 0
+				end
+
+				it "displays a flash error" do
+					post :create, user: Fabricate.attributes_for(:user)
+					expect(flash[:error]).to_not be_nil
+				end
 			end
 		end
 	end
