@@ -45,6 +45,9 @@ group :test do
 	gem "shoulda-matchers"
 	gem 'fabrication'
 	gem 'capybara-email'
+	gem 'capybara-webkit'
+	gem 'webmock'
+	gem 'vcr'
 end
 
 

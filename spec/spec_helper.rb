@@ -7,6 +7,16 @@ require 'draper/test/rspec_integration'
 require 'capybara/rails'
 require 'capybara/email/rspec'
 require 'sidekiq/testing/inline' 
+require 'vcr'
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/cassettes'
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+  c.allow_http_connections_when_no_cassette = true
+end
+
+Capybara.javascript_driver = :webkit
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
