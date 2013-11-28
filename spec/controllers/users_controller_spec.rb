@@ -45,26 +45,31 @@ describe UsersController do
 		let(:valid_credit_card_token) { Stripe::Token.create(card: { number: 4242424242424242, exp_month: 12, exp_year: 2022, cvc: 123}).id }
 		let(:invalid_credit_card_token) { Stripe::Token.create(card: { number: 4000000000000002, exp_month: 12, exp_year: 2022, cvc: 123}).id }
 		context "with valid input" do
-			before { StripeWrapper.set_api_key }
+			before do
+				charge = double("charge")
+				charge.stub(:successful?).and_return(true)
+				StripeWrapper::Charge.stub(:create).and_return(charge)
+			end
 
 			it "creates a new record" do
-				post :create, user: Fabricate.attributes_for(:user), stripeToken: valid_credit_card_token
+				
+				post :create, user: Fabricate.attributes_for(:user)
 				expect(User.count).to eq 1
 			end
 
 			context "email sending" do
 				it "sends out an email" do
-					post :create, user: Fabricate.attributes_for(:user), stripeToken: valid_credit_card_token
+					post :create, user: Fabricate.attributes_for(:user)
 					expect(ActionMailer::Base.deliveries).to_not be_empty
 				end
 
 				it "sends it to the new user" do
-					post :create, user: Fabricate.attributes_for(:user), stripeToken: valid_credit_card_token
+					post :create, user: Fabricate.attributes_for(:user)
 					expect(ActionMailer::Base.deliveries.last.to).to eq [User.first.email]
 				end
 
 				it "has the right content" do
-					post :create, user: Fabricate.attributes_for(:user), stripeToken: valid_credit_card_token
+					post :create, user: Fabricate.attributes_for(:user)
 					expect(ActionMailer::Base.deliveries.last.body).to include("your username is: #{User.first.email}")
 				end
 
@@ -72,60 +77,66 @@ describe UsersController do
 					it "new user is following inviter" do
 						inviter = Fabricate(:user)
 						invitation = Fabricate(:invitation, user_id: inviter.id)
-						post :create, user: Fabricate.attributes_for(:user), stripeToken: valid_credit_card_token, invitation_token: invitation.token
+						post :create, user: Fabricate.attributes_for(:user), invitation_token: invitation.token
 						expect(assigns(:user).following_relationships.first.leader).to eq inviter
 					end
 					it "inviter is following new user" do
 						inviter = Fabricate(:user)
 						invitation = Fabricate(:invitation, user_id: inviter.id)
-						post :create, user: Fabricate.attributes_for(:user), stripeToken: valid_credit_card_token, invitation_token: invitation.token
+						post :create, user: Fabricate.attributes_for(:user), invitation_token: invitation.token
 						expect(inviter.reload.following_relationships.first.leader).to eq assigns(:user)
 					end
 					it "expires the invitation" do
 						inviter = Fabricate(:user)
 						invitation = Fabricate(:invitation, user_id: inviter.id)
-						post :create, user: Fabricate.attributes_for(:user), stripeToken: valid_credit_card_token, invitation_token: invitation.token
+						post :create, user: Fabricate.attributes_for(:user), invitation_token: invitation.token
 						expect(invitation.reload.token).to eq nil
 					end
 				end
 			end
 
 			it "displays a flash message" do
-				post :create, user: Fabricate.attributes_for(:user), stripeToken: valid_credit_card_token
+				post :create, user: Fabricate.attributes_for(:user)
 				expect(flash[:success]).to eq "You are successfully registered, please sign in."
 			end
 			
 			it "redirects to sign in" do
-				post :create, user: Fabricate.attributes_for(:user), stripeToken: valid_credit_card_token
+				post :create, user: Fabricate.attributes_for(:user)
 				expect(response).to redirect_to sign_in_path
 			end
 		end
 		context "with invalid input" do
+			before do
+				charge = double("charge")
+				charge.stub(:successful?).and_return(false)
+				charge.stub(:error_message).and_return("error_message")
+				StripeWrapper::Charge.stub(:create).and_return(charge)
+			end
 			context "with invalid user field input" do
 				it "renders a template" do
-					post :create, user: Fabricate.attributes_for(:invalid_user), stripeToken: valid_credit_card_token
+					post :create, user: Fabricate.attributes_for(:invalid_user)
 					expect(response).to render_template :new
 				end	
 
 				it "does not create a user" do
-					post :create, user: Fabricate.attributes_for(:invalid_user), stripeToken: valid_credit_card_token
+					post :create, user: Fabricate.attributes_for(:invalid_user)
 					expect(User.count).to eq 0
 				end
 			end
 
 			context "with valid user and invalid credit card" do
 				it "renders a template" do
-					post :create, user: Fabricate.attributes_for(:user), stripeToken: invalid_credit_card_token
+					post :create, user: Fabricate.attributes_for(:user)
 					expect(response).to render_template :new
 				end	
 
 				it "does not create a user" do
-					post :create, user: Fabricate.attributes_for(:user), stripeToken: invalid_credit_card_token
+					post :create, user: Fabricate.attributes_for(:user)
 					expect(User.count).to eq 0
 				end
 
 				it "displays a flash error" do
-					post :create, user: Fabricate.attributes_for(:user), stripeToken: invalid_credit_card_token
+					post :create, user: Fabricate.attributes_for(:user)
 					expect(flash[:error]).to_not be_nil
 				end
 			end
