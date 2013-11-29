@@ -21,7 +21,7 @@ feature "Invite User", js: true do
 		select(12, :from => "date_month")
     select(2017, :from => "date_year")
 		click_button "Sign Up"
-		sleep 10
+		sleep 5
 		fill_in "Email", with: "testing@test.com"
 		fill_in "Password", with: "testing"
 		click_button "Sign in"
