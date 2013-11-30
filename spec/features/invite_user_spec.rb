@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "Invite User", js: true do
+feature "Invite User", js: true, driver: :selenium do
 	background { clear_email }
 	given (:inviter) { Fabricate(:user) } 
 	scenario "User sends an invitation to join MyFLix and user registers" do

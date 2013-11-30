@@ -4,8 +4,8 @@ describe SignUp do
 	describe "#sign_up" do
 		context "with valid user information and valid credit card stipe token" do
 			let(:new_user) { Fabricate.build(:user) }
-			let(:charge) { double(:charge_results, successful?: true) }
-			before { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
+			let(:customer) { double(:customer_results, successful?: true) }
+			before { StripeWrapper::Customer.should_receive(:create).and_return(customer) }
 
 			it "creates a new record" do
 				SignUp.new(new_user).sign_up(nil, nil)
@@ -81,8 +81,8 @@ describe SignUp do
 
 			context "with valid user information and invalid credit card stripe token" do
 				let(:new_user) { Fabricate.build(:user) }
-				let(:charge) { double(:charge_results, successful?: false, error_message: "This is an error message") }
-				before { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
+				let(:customer) { double(:customer_results, successful?: false, error_message: "This is an error message") }
+				before { StripeWrapper::Customer.should_receive(:create).and_return(customer) }
 				
 				it "does not create a user" do
 					SignUp.new(new_user).sign_up("some invalid stripe token", nil)
@@ -111,8 +111,8 @@ describe SignUp do
 		end
 
 		context "with valid user information and invalid credit card information" do
-			let(:charge) { double(:charge_results, successful?: false, error_message: "This is an error message") }
-			before  { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
+			let(:customer) { double(:customer_results, successful?: false, error_message: "This is an error message") }
+			before  { StripeWrapper::Customer.should_receive(:create).and_return(customer) }
 		
 			it "sets an error message" do
 				signup = SignUp.new(Fabricate.build(:user)).sign_up(nil, nil)
@@ -124,8 +124,8 @@ describe SignUp do
 	describe "#successful?" do
 		context "with valid user information and valid credit card information" do
 			let(:new_user) { Fabricate.build(:user) }
-			let(:charge) { double(:charge_results, successful?: true) }
-			before { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
+			let(:customer) { double(:customer_results, successful?: true) }
+			before { StripeWrapper::Customer.should_receive(:create).and_return(customer) }
 
 			it "returns true" do
 				signup = SignUp.new(new_user).sign_up(nil, nil)
@@ -141,8 +141,8 @@ describe SignUp do
 
 		context "with valid user information and invalid credit card information" do
 			let(:new_user) { Fabricate.build(:user) }
-			let(:charge) { double(:charge_results, successful?: false, error_message: "This is an error_message") }
-			before { StripeWrapper::Charge.should_receive(:create).and_return(charge) }
+			let(:customer) { double(:customer_results, successful?: false, error_message: "This is an error_message") }
+			before { StripeWrapper::Customer.should_receive(:create).and_return(customer) }
 			it "returns false" do
 				signup = SignUp.new(new_user).sign_up(nil, nil)
 				expect(signup.successful?).to eq false

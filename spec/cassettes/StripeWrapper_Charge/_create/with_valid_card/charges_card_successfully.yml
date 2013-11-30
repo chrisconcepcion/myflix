@@ -1,0 +1,129 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/tokens
+    body:
+      encoding: US-ASCII
+      string: card[number]=4242424242424242&card[exp_month]=12&card[exp_year]=2022&card[cvc]=123
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.8.8
+      Authorization:
+      - Bearer sk_test_CJet5774RlcT4QrNG2tI5VEM
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - ! '{"bindings_version":"1.8.8","lang":"ruby","lang_version":"1.9.3 p392 (2013-02-22)","platform":"x86_64-darwin10.8.0","publisher":"stripe","uname":"Darwin
+        christopher-pc 11.2.0 Darwin Kernel Version 11.2.0: Tue Aug  9 20:54:00 PDT
+        2011; root:xnu-1699.24.8~1/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '82'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 30 Nov 2013 15:21:10 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '571'
+      Connection:
+      - keep-alive
+      Access-Control-Max-Age:
+      - '300'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - no-cache, no-store
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: US-ASCII
+      string: ! "{\n  \"id\": \"tok_1032KC2KoHO1hwu48hD1ASaS\",\n  \"livemode\": false,\n
+        \ \"created\": 1385824870,\n  \"used\": false,\n  \"object\": \"token\",\n
+        \ \"type\": \"card\",\n  \"card\": {\n    \"id\": \"card_1032KC2KoHO1hwu4sliGbTzF\",\n
+        \   \"object\": \"card\",\n    \"last4\": \"4242\",\n    \"type\": \"Visa\",\n
+        \   \"exp_month\": 12,\n    \"exp_year\": 2022,\n    \"fingerprint\": \"fJqnJX9xYesNslvE\",\n
+        \   \"customer\": null,\n    \"country\": \"US\",\n    \"name\": null,\n    \"address_line1\":
+        null,\n    \"address_line2\": null,\n    \"address_city\": null,\n    \"address_state\":
+        null,\n    \"address_zip\": null,\n    \"address_country\": null\n  }\n}\n"
+    http_version: 
+  recorded_at: Sat, 30 Nov 2013 15:21:10 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/charges
+    body:
+      encoding: US-ASCII
+      string: amount=9990&currency=usd&card=tok_1032KC2KoHO1hwu48hD1ASaS
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.8.8
+      Authorization:
+      - Bearer sk_test_CJet5774RlcT4QrNG2tI5VEM
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - ! '{"bindings_version":"1.8.8","lang":"ruby","lang_version":"1.9.3 p392 (2013-02-22)","platform":"x86_64-darwin10.8.0","publisher":"stripe","uname":"Darwin
+        christopher-pc 11.2.0 Darwin Kernel Version 11.2.0: Tue Aug  9 20:54:00 PDT
+        2011; root:xnu-1699.24.8~1/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '58'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 30 Nov 2013 15:21:11 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '969'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Max-Age:
+      - '300'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - no-cache, no-store
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: US-ASCII
+      string: ! "{\n  \"id\": \"ch_1032KC2KoHO1hwu4zXMZ1Vus\",\n  \"object\": \"charge\",\n
+        \ \"created\": 1385824870,\n  \"livemode\": false,\n  \"paid\": true,\n  \"amount\":
+        9990,\n  \"currency\": \"usd\",\n  \"refunded\": false,\n  \"card\": {\n    \"id\":
+        \"card_1032KC2KoHO1hwu4sliGbTzF\",\n    \"object\": \"card\",\n    \"last4\":
+        \"4242\",\n    \"type\": \"Visa\",\n    \"exp_month\": 12,\n    \"exp_year\":
+        2022,\n    \"fingerprint\": \"fJqnJX9xYesNslvE\",\n    \"customer\": null,\n
+        \   \"country\": \"US\",\n    \"name\": null,\n    \"address_line1\": null,\n
+        \   \"address_line2\": null,\n    \"address_city\": null,\n    \"address_state\":
+        null,\n    \"address_zip\": null,\n    \"address_country\": null,\n    \"cvc_check\":
+        \"pass\",\n    \"address_line1_check\": null,\n    \"address_zip_check\":
+        null\n  },\n  \"captured\": true,\n  \"refunds\": [],\n  \"balance_transaction\":
+        \"txn_1032KC2KoHO1hwu4bM6Uhnnw\",\n  \"failure_message\": null,\n  \"failure_code\":
+        null,\n  \"amount_refunded\": 0,\n  \"customer\": null,\n  \"invoice\": null,\n
+        \ \"description\": null,\n  \"dispute\": null,\n  \"metadata\": {}\n}\n"
+    http_version: 
+  recorded_at: Sat, 30 Nov 2013 15:21:11 GMT
+recorded_with: VCR 2.8.0

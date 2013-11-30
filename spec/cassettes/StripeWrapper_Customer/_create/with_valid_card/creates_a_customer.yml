@@ -1,0 +1,139 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/tokens
+    body:
+      encoding: US-ASCII
+      string: card[number]=4242424242424242&card[exp_month]=12&card[exp_year]=2022&card[cvc]=123
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.8.8
+      Authorization:
+      - Bearer sk_test_CJet5774RlcT4QrNG2tI5VEM
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - ! '{"bindings_version":"1.8.8","lang":"ruby","lang_version":"1.9.3 p392 (2013-02-22)","platform":"x86_64-darwin10.8.0","publisher":"stripe","uname":"Darwin
+        christopher-pc 11.2.0 Darwin Kernel Version 11.2.0: Tue Aug  9 20:54:00 PDT
+        2011; root:xnu-1699.24.8~1/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '82'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 30 Nov 2013 15:23:18 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '571'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Max-Age:
+      - '300'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Cache-Control:
+      - no-cache, no-store
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: US-ASCII
+      string: ! "{\n  \"id\": \"tok_1032KE2KoHO1hwu4D3fiu0C5\",\n  \"livemode\": false,\n
+        \ \"created\": 1385824998,\n  \"used\": false,\n  \"object\": \"token\",\n
+        \ \"type\": \"card\",\n  \"card\": {\n    \"id\": \"card_1032KE2KoHO1hwu4SQ9fKLFD\",\n
+        \   \"object\": \"card\",\n    \"last4\": \"4242\",\n    \"type\": \"Visa\",\n
+        \   \"exp_month\": 12,\n    \"exp_year\": 2022,\n    \"fingerprint\": \"fJqnJX9xYesNslvE\",\n
+        \   \"customer\": null,\n    \"country\": \"US\",\n    \"name\": null,\n    \"address_line1\":
+        null,\n    \"address_line2\": null,\n    \"address_city\": null,\n    \"address_state\":
+        null,\n    \"address_zip\": null,\n    \"address_country\": null\n  }\n}\n"
+    http_version: 
+  recorded_at: Sat, 30 Nov 2013 15:23:18 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: US-ASCII
+      string: plan=myflix&card=tok_1032KE2KoHO1hwu4D3fiu0C5&email=bernita_brekke%40auer.net
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.8.8
+      Authorization:
+      - Bearer sk_test_CJet5774RlcT4QrNG2tI5VEM
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - ! '{"bindings_version":"1.8.8","lang":"ruby","lang_version":"1.9.3 p392 (2013-02-22)","platform":"x86_64-darwin10.8.0","publisher":"stripe","uname":"Darwin
+        christopher-pc 11.2.0 Darwin Kernel Version 11.2.0: Tue Aug  9 20:54:00 PDT
+        2011; root:xnu-1699.24.8~1/RELEASE_X86_64 x86_64"}'
+      Content-Length:
+      - '77'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 30 Nov 2013 15:23:21 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '1744'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Max-Age:
+      - '300'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Cache-Control:
+      - no-cache, no-store
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: US-ASCII
+      string: ! "{\n  \"object\": \"customer\",\n  \"created\": 1385825000,\n  \"id\":
+        \"cus_32KFuQjUoFvkId\",\n  \"livemode\": false,\n  \"description\": null,\n
+        \ \"email\": \"bernita_brekke@auer.net\",\n  \"delinquent\": false,\n  \"metadata\":
+        {},\n  \"subscription\": {\n    \"id\": \"sub_32KFCC85CDE3Ca\",\n    \"plan\":
+        {\n      \"interval\": \"month\",\n      \"name\": \"standard\",\n      \"amount\":
+        999,\n      \"currency\": \"usd\",\n      \"id\": \"myflix\",\n      \"object\":
+        \"plan\",\n      \"livemode\": false,\n      \"interval_count\": 1,\n      \"trial_period_days\":
+        null,\n      \"metadata\": {}\n    },\n    \"object\": \"subscription\",\n
+        \   \"start\": 1385825000,\n    \"status\": \"active\",\n    \"customer\":
+        \"cus_32KFuQjUoFvkId\",\n    \"cancel_at_period_end\": false,\n    \"current_period_start\":
+        1385825000,\n    \"current_period_end\": 1388417000,\n    \"ended_at\": null,\n
+        \   \"trial_start\": null,\n    \"trial_end\": null,\n    \"canceled_at\":
+        null,\n    \"quantity\": 1,\n    \"application_fee_percent\": null\n  },\n
+        \ \"discount\": null,\n  \"account_balance\": 0,\n  \"cards\": {\n    \"object\":
+        \"list\",\n    \"count\": 1,\n    \"url\": \"/v1/customers/cus_32KFuQjUoFvkId/cards\",\n
+        \   \"data\": [\n      {\n        \"id\": \"card_1032KE2KoHO1hwu4SQ9fKLFD\",\n
+        \       \"object\": \"card\",\n        \"last4\": \"4242\",\n        \"type\":
+        \"Visa\",\n        \"exp_month\": 12,\n        \"exp_year\": 2022,\n        \"fingerprint\":
+        \"fJqnJX9xYesNslvE\",\n        \"customer\": \"cus_32KFuQjUoFvkId\",\n        \"country\":
+        \"US\",\n        \"name\": null,\n        \"address_line1\": null,\n        \"address_line2\":
+        null,\n        \"address_city\": null,\n        \"address_state\": null,\n
+        \       \"address_zip\": null,\n        \"address_country\": null,\n        \"cvc_check\":
+        \"pass\",\n        \"address_line1_check\": null,\n        \"address_zip_check\":
+        null\n      }\n    ]\n  },\n  \"default_card\": \"card_1032KE2KoHO1hwu4SQ9fKLFD\"\n}\n"
+    http_version: 
+  recorded_at: Sat, 30 Nov 2013 15:23:21 GMT
+recorded_with: VCR 2.8.0

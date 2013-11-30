@@ -8,7 +8,7 @@ class SignUp
 
 	def sign_up(token, invitation_token)
 		if @user.valid?
-			charge = StripeWrapper::Charge.create(amount: 9990, currency: 'usd', card: token)
+			charge = StripeWrapper::Customer.create(plan: 'myflix', email: @user.email, card: token)
 			if charge.successful?
   				@user.save
 					handle_invitation(invitation_token) if invitation_token.present?
