@@ -23,24 +23,37 @@ describe SessionsController do
 
 	describe "POST create" do
 		context "with valid inputs" do
-			let(:user) { Fabricate(:user) }
+			context "when user is active" do
+				let(:user) { Fabricate(:user) }
+				it "signs in a user" do
+					post :create, email: user.email, password: user.password
+					expect(session[:user_id]).to eq user.id
+				end
 
-			it "signs in a user" do
-				post :create, email: user.email, password: user.password
-				expect(session[:user_id]).to eq user.id
-			end
+				it "redirects to home" do
+					post :create, email: user.email, password: user.password
+					expect(response).to redirect_to home_path
+				end
 
-			it "redirects to home" do
-				post :create, email: user.email, password: user.password
-				expect(response).to redirect_to home_path
-			end
-
-			it "displays a flash notice" do
-				post :create, email: user.email, password: user.password
-				expect(flash[:notice]).to eq "You have logged in successfully."
+				it "displays a flash notice" do
+					post :create, email: user.email, password: user.password
+					expect(flash[:notice]).to eq "You have logged in successfully."
+				end
 			end
 		end
 
+		context "when user is inactive" do
+			let(:inactive_user) { Fabricate(:user, active: false) }
+			it "displays a flash error" do
+				post :create, email: inactive_user.email, password: inactive_user.password
+				expect(flash[:error]).to eq "Your account is locked, please contact customer service to resolve the issue."
+			end
+
+			it "redirects to sign in" do
+				post :create, email: inactive_user.email, password: inactive_user.password
+				expect(response).to redirect_to sign_in_path
+			end
+		end
 		context "with invalid input" do
 			it "displays flash notice" do
 				post :create, email: "", password: ""

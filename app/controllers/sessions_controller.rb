@@ -11,9 +11,14 @@ class SessionsController < ApplicationController
 	def create
 		user = User.find_by(email: params[:email])
 		if user && user.authenticate(params[:password])
-			session[:user_id] = user.id
-			flash[:notice] = "You have logged in successfully."
-			redirect_to home_path
+			if user.active
+				session[:user_id] = user.id
+				flash[:notice] = "You have logged in successfully."
+				redirect_to home_path
+			else 
+				flash[:error] = "Your account is locked, please contact customer service to resolve the issue."
+				redirect_to sign_in_path
+			end
 		else
 			flash[:notice] = "Incorrect email or password. Please try again."
 			render :new

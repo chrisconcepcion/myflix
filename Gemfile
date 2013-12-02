@@ -14,6 +14,7 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'carrierwave'
 gem "fog", "~> 1.3.1"
 gem "stripe"
+gem 'stripe_event'
 
 
 group :assets do
