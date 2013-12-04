@@ -1,5 +1,5 @@
 class Admin::PaymentsController < AdminsController
 	def index
-		@payments = Payment.all
+		@payments = PaymentDecorator.decorate_collection(Payment.all)
 	end
 end

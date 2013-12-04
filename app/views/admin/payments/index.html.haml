@@ -1,35 +1,29 @@
-%section.billing.container
-  .row
-    .span10.offset1
-      .plan_and_payments
-        %section.plan
-          %header
-            %h1 Billing
-          %table.table
-            %thead
-              %tr
-                %th
-                %th Next Billing Date
-                %th Price
-            %tbody
-              %tr
-                %td The All You Can Watch Plan
-                %td 03/19/2013
-                %td 9.99 per month
-        = button_to "Cancel Service", nil, class: "btn"
-
+%section.admin_payments
+  .container
+    .row
+      .span10.offset1
         %section.payment_history
-          %header
-            %h3 Payment History
+          %ul.nav.nav-tabs
+            %li.active
+              %a(href="") Recent Payments
+            %li
+              =link_to "Add a New Video", new_admin_video_path
+        - @payments.each do |payment|
           %table.table
             %thead
               %tr
-                %th Date
-                %th Service Duration
-                %th Total
+                %th Name
+                %th Email
+                %th Amount
+                %th Reference ID
             %tbody
-              - 8.times do
-                %tr
-                  %td 12/09/2012
-                  %td 12/09/2012 - 01/08/2013
-                  %td $9.99
+              %tr
+                %td 
+                  =payment.user_full_name
+                %td
+                  =payment.user_email
+                %td 
+                  =payment.formatted_amount
+                %td 
+                  =payment.reference_id
+
