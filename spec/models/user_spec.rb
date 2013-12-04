@@ -11,11 +11,20 @@ describe User do
 	it { should have_many(:leading_relationships) }
 	it { should have_many(:following_relationships) }
 	it { should have_many(:invitations) }
+	it { should have_many(:payments) }
 
 	
-	context "when an user is created" do
+	describe "when an user is created" do
 		it_behaves_like "tokenable" do
 			let(:object) { Fabricate(:user) }
+		end
+	end
+
+	describe "#deactivate!" do
+		it "deactivates a user" do
+			user = Fabricate(:user)
+			user.deactivate!
+			expect(user.reload.active).to eq false
 		end
 	end
 

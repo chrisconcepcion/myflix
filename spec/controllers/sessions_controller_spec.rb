@@ -22,8 +22,10 @@ describe SessionsController do
 	end
 
 	describe "POST create" do
-		context "with valid inputs" do
+		context "when authentication returns true" do
 			let(:user) { Fabricate(:user) }
+			let(:authentication) { double(:authentication_results, successful?: true) }
+			before { UserAuthentication.any_instance.should_receive(:authenticate).and_return(authentication) }
 
 			it "signs in a user" do
 				post :create, email: user.email, password: user.password
@@ -40,16 +42,19 @@ describe SessionsController do
 				expect(flash[:notice]).to eq "You have logged in successfully."
 			end
 		end
+		
 
-		context "with invalid input" do
+		context "when authentication returns false" do
+			let(:authentication) { double(:authentication_results, successful?: false, error_message: "This is an error message") }
+			before { UserAuthentication.any_instance.should_receive(:authenticate).and_return(authentication) }
 			it "displays flash notice" do
 				post :create, email: "", password: ""
-				expect(flash[:notice]).to eq "Incorrect email or password. Please try again."
+				expect(flash[:error]).to eq "This is an error message"
 			end
 
 			it "renders new template" do
 				post :create, email: "", password: ""
-				expect(response).to render_template :new
+				expect(response).to redirect_to sign_in_path
 			end
 		end
 	end

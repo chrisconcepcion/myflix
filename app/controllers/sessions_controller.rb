@@ -10,13 +10,14 @@ class SessionsController < ApplicationController
 
 	def create
 		user = User.find_by(email: params[:email])
-		if user && user.authenticate(params[:password])
+		authentication = UserAuthentication.new(user).authenticate(params[:password])
+		if authentication.successful?
 			session[:user_id] = user.id
 			flash[:notice] = "You have logged in successfully."
 			redirect_to home_path
 		else
-			flash[:notice] = "Incorrect email or password. Please try again."
-			render :new
+			flash[:error] = authentication.error_message
+			redirect_to sign_in_path
 		end
 	end
 

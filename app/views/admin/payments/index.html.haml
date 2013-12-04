@@ -1,0 +1,29 @@
+%section.admin_payments
+  .container
+    .row
+      .span10.offset1
+        %section.payment_history
+          %ul.nav.nav-tabs
+            %li.active
+              %a(href="") Recent Payments
+            %li
+              =link_to "Add a New Video", new_admin_video_path
+        - @payments.each do |payment|
+          %table.table
+            %thead
+              %tr
+                %th Name
+                %th Email
+                %th Amount
+                %th Reference ID
+            %tbody
+              %tr
+                %td 
+                  =payment.user_full_name
+                %td
+                  =payment.user_email
+                %td 
+                  =payment.formatted_amount
+                %td 
+                  =payment.reference_id
+

@@ -45,14 +45,14 @@ describe UsersController do
 		context "when signup is successful" do
 			it "displays a flash success message" do
 				signup = double(:sign_up_results, successful?: true)
-				SignUp.any_instance.should_receive(:sign_up).and_return(signup)
+				UserSignUp.any_instance.should_receive(:sign_up).and_return(signup)
 				post :create, user: Fabricate.attributes_for(:user)
 				expect(flash[:success]).to eq "You are successfully registered, please sign in."
 			end
 			
 			it "redirects to sign in" do
 				signup = double(:sign_up_results, successful?: true)
-				SignUp.any_instance.should_receive(:sign_up).and_return(signup)
+				UserSignUp.any_instance.should_receive(:sign_up).and_return(signup)
 				post :create, user: Fabricate.attributes_for(:user)
 				expect(response).to redirect_to sign_in_path
 			end
@@ -60,14 +60,14 @@ describe UsersController do
 		context "when signup is unsuccessful" do
 			it "renders a template" do
 				signup = double(:sign_up_results, successful?: false, error_message: "This is an error message")
-				SignUp.any_instance.should_receive(:sign_up).and_return(signup)
+				UserSignUp.any_instance.should_receive(:sign_up).and_return(signup)
 				post :create, user: Fabricate.attributes_for(:user)
 				expect(response).to render_template :new
 			end	
 
 			it "displays a flash error message" do
 				signup = double(:sign_up_results, successful?: false, error_message: "This is an error message")
-				SignUp.any_instance.should_receive(:sign_up).and_return(signup)
+				UserSignUp.any_instance.should_receive(:sign_up).and_return(signup)
 				post :create, user: Fabricate.attributes_for(:user)
 			end
 		end

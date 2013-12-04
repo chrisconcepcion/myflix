@@ -1,4 +1,4 @@
-class SignUp
+class UserSignUp
 
 	attr_reader :error_message
 

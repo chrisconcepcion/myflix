@@ -16,4 +16,9 @@ class UserMailer < ActionMailer::Base
 		@invitation = invitation
 		mail(to: @invitation.recipient_email, subject: "#{@user.full_name} has invited you to join MyFLix")
 	end
+
+	def locked_account(user)
+		@user = user
+		mail(to: @user.email, subject: "Your MyFLix account has been locked.")
+	end
 end
